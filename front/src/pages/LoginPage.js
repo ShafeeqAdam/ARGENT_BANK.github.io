@@ -1,8 +1,84 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../Redux/authActions";
+import { loginSuccess } from "../Redux/authReducers";
 import "./styles/main.css";
 import argentBank from "./img/argentBankLogo.png";
 
 function LoginPage() {
+  // pour utiliser dispatch et navigate
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // useSelector vient extraire la valeur de isAuth, state maj par le reducer a chaque fois que le state change
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  // même chose mais avec errooooooor
+  const loginError = useSelector((state) => state.auth.error);
+  // divers state
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  // va etre la pour l'alerte, on mettra son etat a jour pour suivre les tentatives de co echoué
+  const [hasAttemptedLogin, setHasAttemptedLogin] = useState(false);
+  // pareil mais quelle ai reussis ou echoué
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+  // func async quand le user click sur le bouton de co
+  const handleLogin = async () => {
+    // const avec les infos de co
+    const user = {
+      email: username,
+      password: password,
+    };
+    // ptite verif qui va bien
+    console.log("mail du user ", username, "mdp du user", password);
+    // ptite verif qui va bien
+    console.log("Button clicked");
+    // reste a false
+    setHasAttemptedLogin(false);
+    // dispatch de login avec user
+    await dispatch(login(user));
+    // met à jour l'état pour dire que le user a essayé et réussis à se co
+    setSubmitAttempted(true);
+  };
+
+  useEffect(() => {
+    // utile pour affichage de l'alerte
+    // si erreur pendant tentatives de co, alors a essayé de se co est vrai
+    if (loginError && submitAttempted) {
+      setHasAttemptedLogin(true);
+    } else {
+      // si pas d'erreur pendant tentative de co alors a essayé de se co est sans erreur faux
+      setHasAttemptedLogin(false);
+    }
+  }, [loginError, submitAttempted]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log("useE bien la ");
+      console.log("user co", isAuthenticated);
+      // dispatch du succes
+      dispatch(loginSuccess());
+      console.log("Bouton clikéé bienvenu à bord !");
+      // et rediiiiiiirection
+      navigate("/user");
+    } else {
+      // si tentative de co foirée
+      if (hasAttemptedLogin) {
+        // affichage magique
+        window.alert(loginError);
+        // maj de ca pcq j'avais des alertes en pagaille
+        setSubmitAttempted(false);
+      }
+    }
+  }, [
+    isAuthenticated,
+    navigate,
+    dispatch,
+    username,
+    password,
+    hasAttemptedLogin,
+    loginError,
+  ]);
+
   return (
     <div className="body">
       <nav className="main-nav">
@@ -28,28 +104,39 @@ function LoginPage() {
           <form>
             <div className="input-wrapper">
               <label htmlFor="username">Username</label>
-              <input type="text" id="username" />
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </div>
             <div className="input-wrapper">
               <label htmlFor="password">Password</label>
-              <input type="password" id="password" />
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             <div className="input-remember">
               <input type="checkbox" id="remember-me" />
               <label htmlFor="remember-me">Remember me</label>
             </div>
-
-            <a href="./user" className="sign-in-button">
+            <button
+              type="button"
+              onClick={handleLogin}
+              className="sign-in-button"
+            >
               Sign In
-            </a>
+            </button>
           </form>
         </section>
       </main>
       <footer className="footer">
         <p className="footer-text">Copyright 2020 Argent Bank</p>
       </footer>
-
-      <script></script>
     </div>
   );
 }

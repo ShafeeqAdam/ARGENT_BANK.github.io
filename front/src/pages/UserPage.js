@@ -1,8 +1,20 @@
 import React from "react";
 import "./styles/main.css";
 import argentBank from "./img/argentBankLogo.png";
+import { logout } from "../Redux/authActions";
+import { useDispatch } from "react-redux";
+import UserEditButton from "../compsants/UserEditButton";
 
 function UserPage() {
+  // pour le forumlaire ca arrive
+  const handleEditClick = () => {
+    console.log("Bouton d'édition cliqué !");
+  };
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
     <div className="body">
       <nav className="main-nav">
@@ -19,7 +31,7 @@ function UserPage() {
             <i className="fa fa-user-circle"></i>
             Tony
           </a>
-          <a className="main-nav-item" href="./">
+          <a className="main-nav-item" /*href="./"*/ onClick={handleLogout}>
             <i className="fa fa-sign-out"></i>
             Sign Out
           </a>
@@ -32,13 +44,13 @@ function UserPage() {
             <br />
             Mister-Stark!
           </h1>
-          <button className="edit-button">Edit Name</button>
+          <UserEditButton onEditClick={handleEditClick} />
         </div>
         <h2 className="sr-only">Accounts</h2>
         <section className="account">
           <div className="account-content-wrapper">
             <h3 className="account-title">Argent Bank Checking (x8349)</h3>
-            <p className="account-amount">$2,082.79</p>
+            <p className="account-amount">$200,786,082.79</p>
             <p className="account-amount-description">Available Balance</p>
           </div>
           <div className="account-content-wrapper cta">
@@ -48,7 +60,7 @@ function UserPage() {
         <section className="account">
           <div className="account-content-wrapper">
             <h3 className="account-title">Argent Bank Savings (x6712)</h3>
-            <p className="account-amount">$10,928.42</p>
+            <p className="account-amount">$500,000,928.42</p>
             <p className="account-amount-description">Available Balance</p>
           </div>
           <div className="account-content-wrapper cta">
@@ -58,7 +70,7 @@ function UserPage() {
         <section className="account">
           <div className="account-content-wrapper">
             <h3 className="account-title">Argent Bank Credit Card (x8349)</h3>
-            <p className="account-amount">$184.30</p>
+            <p className="account-amount">$180,404.30</p>
             <p className="account-amount-description">Current Balance</p>
           </div>
           <div className="account-content-wrapper cta">
