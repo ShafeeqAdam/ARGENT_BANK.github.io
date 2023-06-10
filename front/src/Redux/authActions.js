@@ -23,9 +23,7 @@ export const login = (userData) => async (dispatch) => {
       body: JSON.stringify(userData),
     });
     // reponse pas bonne erreur générée
-    if (!response.ok) {
-      throw new Error("Identifiants invalides. Veuillez réessayer.");
-    }
+
     // si reponse ok data en mode json
     const data = await response.json();
     // Pour voir la reponse complete

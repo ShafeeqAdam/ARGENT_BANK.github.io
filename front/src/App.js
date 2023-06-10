@@ -13,24 +13,40 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "./Redux/authReducers";
 
+import Header from "./compsants/Header";
+import Footer from "./compsants/Footer";
+
+function Layout({ children }) {
+  // children c'est les routes
+  return (
+    <div>
+      <Header />
+      {children}
+      <Footer />
+    </div>
+  );
+}
+
 function AppInitializer() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      console.log("misteeeeeer stark", user);
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
       dispatch(loginSuccess(user));
     }
   }, [dispatch]);
 
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/user" element={<UserPage />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/user" element={<UserPage />} />
+        </Routes>
+      </Layout>
     </Router>
   );
 }

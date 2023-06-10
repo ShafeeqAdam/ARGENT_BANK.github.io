@@ -1,10 +1,28 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateUserProfile } from "../Redux/updateUserProfile";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function UserEditButton({ onEditClick }) {
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.auth.user);
+  // console.log(user);
+
   const [editing, setEditing] = useState(false);
   const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("Tony");
-  const [lastName, setLastName] = useState("Stark");
+  // const [firstName] = useState(user ? user.firstName : "");
+  // const [lastName] = useState(user ? user.lastName : "");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      setFirstName(user.firstName);
+      setLastName(user.lastName);
+    }
+  }, [user]);
 
   const handleEditClick = () => {
     setEditing(true);
@@ -12,6 +30,7 @@ function UserEditButton({ onEditClick }) {
   };
 
   const handleSaveClick = () => {
+    dispatch(updateUserProfile(username));
     // Effectuer les actions nécessaires pour sauvegarder les modifications
     setEditing(false);
   };
@@ -23,6 +42,7 @@ function UserEditButton({ onEditClick }) {
 
   const editSubmit = (event) => {
     event.preventDefault();
+
     // Mettre à jour les informations de l'utilisateur ici
     setEditing(false);
   };
@@ -55,7 +75,7 @@ function UserEditButton({ onEditClick }) {
           <div>
             <button
               className="edit-button"
-              // type="button"
+              type="submit"
               onClick={handleSaveClick}
             >
               Save

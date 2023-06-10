@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchUserProfile } from "./fetchProfile";
+import { updateUserProfile } from "./updateUserProfile";
 // état initial de l'app, un peu comme le début d'un game
 const initialState = {
   isAuthenticated: false, // joueur pas encore sur le terrain
@@ -32,6 +34,37 @@ const authSlice = createSlice({
       state.error = null; // r
       state.loading = false; // match en cours
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUserProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchUserProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
+        state.user = null;
+      })
+      .addCase(updateUserProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+        console.log("etat apres maj", state);
+      })
+      .addCase(updateUserProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
+      });
   },
 });
 

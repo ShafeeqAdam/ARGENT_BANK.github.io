@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../Redux/authActions";
 import { loginSuccess } from "../Redux/authReducers";
 import "./styles/main.css";
-import argentBank from "./img/argentBankLogo.png";
+import { fetchUserProfile } from "../Redux/fetchProfile";
 
 function LoginPage() {
   // pour utiliser dispatch et navigate
@@ -57,7 +57,10 @@ function LoginPage() {
       console.log("user co", isAuthenticated);
       // dispatch du succes
       dispatch(loginSuccess());
+      dispatch(fetchUserProfile());
       console.log("Bouton clikéé bienvenu à bord !");
+      //////////
+
       // et rediiiiiiirection
       navigate("/user");
     } else {
@@ -81,22 +84,6 @@ function LoginPage() {
 
   return (
     <div className="body">
-      <nav className="main-nav">
-        <a className="main-nav-logo" href="/">
-          <img
-            className="main-nav-logo-image"
-            src={argentBank}
-            alt="Argent Bank Logo"
-          />
-          <h1 className="sr-only">Argent Bank</h1>
-        </a>
-        <div>
-          <a className="main-nav-item" href="/login">
-            <i className="fa fa-user-circle"></i>
-            Sign In
-          </a>
-        </div>
-      </nav>
       <main className="main bg-dark">
         <section className="sign-in-content">
           <i className="fa fa-user-circle sign-in-icon"></i>
@@ -134,9 +121,6 @@ function LoginPage() {
           </form>
         </section>
       </main>
-      <footer className="footer">
-        <p className="footer-text">Copyright 2020 Argent Bank</p>
-      </footer>
     </div>
   );
 }
