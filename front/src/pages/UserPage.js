@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles/main.css";
-import IntroUser from "../compsants/IntroUser";
-import UserAccount from "../compsants/UserAccount";
+import IntroUser from "../components/IntroUser";
+import UserAccount from "../components/UserAccount";
 
 function UserPage() {
   return (

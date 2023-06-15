@@ -2,14 +2,22 @@ import argentBank from "../pages/img/argentBankLogo.png";
 import "../pages/styles/main.css";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 import { logout } from "../Redux/authActions";
 import { Link } from "react-router-dom";
+import { fetchUserProfile } from "../Redux/fetchProfile";
+import { selectIsAuthenticated } from "../Redux/selector";
+import { selectUser } from "../Redux/selector";
 
 function Header() {
   const dispatch = useDispatch();
 
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const user = useSelector((state) => state.auth.user);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    dispatch(fetchUserProfile());
+  }, [dispatch]);
 
   const handleLogout = () => {
     dispatch(logout());

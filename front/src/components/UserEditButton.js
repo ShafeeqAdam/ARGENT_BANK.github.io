@@ -3,17 +3,16 @@ import { useDispatch } from "react-redux";
 import { updateUserProfile } from "../Redux/updateUserProfile";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { selectUser } from "../Redux/selector";
 
 function UserEditButton({ onEditClick }) {
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector(selectUser);
   // console.log(user);
 
   const [editing, setEditing] = useState(false);
   const [username, setUsername] = useState("");
-  // const [firstName] = useState(user ? user.firstName : "");
-  // const [lastName] = useState(user ? user.lastName : "");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
@@ -28,22 +27,25 @@ function UserEditButton({ onEditClick }) {
     setEditing(true);
     onEditClick();
   };
-
+  // ajout alerte, si pas de texte dans le input username
   const handleSaveClick = () => {
+    if (!username) {
+      alert("Please enter a username");
+
+      return;
+    }
+
     dispatch(updateUserProfile(username));
-    // Effectuer les actions nécessaires pour sauvegarder les modifications
     setEditing(false);
   };
 
   const handleCancelClick = () => {
-    // Effectuer les actions nécessaires pour annuler les modifications
     setEditing(false);
   };
 
   const editSubmit = (event) => {
     event.preventDefault();
 
-    // Mettre à jour les informations de l'utilisateur ici
     setEditing(false);
   };
 
@@ -62,7 +64,7 @@ function UserEditButton({ onEditClick }) {
               type="text"
               value={username}
               onChange={(event) => setUsername(event.target.value)}
-            />
+            ></input>
           </label>
           <label>
             First Name:

@@ -5,15 +5,19 @@ import { login } from "../Redux/authActions";
 import { loginSuccess } from "../Redux/authReducers";
 import "./styles/main.css";
 import { fetchUserProfile } from "../Redux/fetchProfile";
+import { selectIsAuthenticated } from "../Redux/selector";
+import { selectLoginError } from "../Redux/selector";
 
 function LoginPage() {
   // pour utiliser dispatch et navigate
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // useSelector vient extraire la valeur de isAuth, state maj par le reducer a chaque fois que le state change
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   // même chose mais avec errooooooor
-  const loginError = useSelector((state) => state.auth.error);
+
+  const loginError = useSelector(selectLoginError);
   // divers state
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

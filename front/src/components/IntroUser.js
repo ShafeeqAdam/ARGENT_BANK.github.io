@@ -1,15 +1,16 @@
 import "../pages/styles/main.css";
-import UserEditButton from "../compsants/UserEditButton";
+import UserEditButton from "./UserEditButton";
 import { useSelector } from "react-redux";
+import { selectUser } from "../Redux/selector";
 
 function IntroUser() {
   const handleEditClick = () => {
     console.log("Edit cliqué !");
   };
-  // useSelector pour accéder à notre state global Redux
-  const user = useSelector((state) => state.auth.user);
 
-  // Générer un titre de bienvenue basé sur le nom d'utilisateur
+  const user = useSelector(selectUser);
+
+  // rendu welcome dynamique
   const welcomeTitle = user
     ? `Welcome back, ${user.firstName}!`
     : "Welcome back!";

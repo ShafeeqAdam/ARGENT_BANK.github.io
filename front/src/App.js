@@ -13,8 +13,8 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "./Redux/authReducers";
 
-import Header from "./compsants/Header";
-import Footer from "./compsants/Footer";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function Layout({ children }) {
   // children c'est les routes
