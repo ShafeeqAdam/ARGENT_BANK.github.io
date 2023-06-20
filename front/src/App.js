@@ -16,6 +16,8 @@ import { loginSuccess } from "./Redux/authReducers";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+
 function Layout({ children }) {
   // children c'est les routes
   return (
@@ -44,7 +46,14 @@ function AppInitializer() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/user" element={<UserPage />} />
+          <Route
+            path="/user"
+            element={
+              <ProtectedRoute>
+                <UserPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Layout>
     </Router>

@@ -8,9 +8,11 @@ import { Link } from "react-router-dom";
 import { fetchUserProfile } from "../Redux/fetchProfile";
 import { selectIsAuthenticated } from "../Redux/selector";
 import { selectUser } from "../Redux/selector";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const user = useSelector(selectUser);
@@ -21,6 +23,7 @@ function Header() {
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/");
   };
 
   return (
@@ -47,10 +50,11 @@ function Header() {
                 <i className="fa fa-user-circle"></i>
                 {user.username}
               </Link>
-              <a className="main-nav-item" href="/" onClick={handleLogout}>
+
+              <button className="main-nav-item" onClick={handleLogout}>
                 <i className="fa fa-sign-out"></i>
                 Sign Out
-              </a>
+              </button>
             </>
           )}
         </div>
