@@ -10,3 +10,5 @@ function ProtectedRoute({ children }) {
 }
 
 export default ProtectedRoute;
+
+// si auth est false redirige vers login, sinon userPage aka children dans app.
