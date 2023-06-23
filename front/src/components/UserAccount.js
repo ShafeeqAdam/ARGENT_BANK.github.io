@@ -2,7 +2,7 @@ import "../pages/styles/main.css";
 import UserAccountTransactions from "./UserAccountTransactions";
 
 /* Legere modif suite à la soutenance, import et intégration du composants
-HomeItems*/
+UserAccountTransactions*/
 
 function UserAccount() {
   return (
